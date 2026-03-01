@@ -9,6 +9,7 @@ import br.com.algadelivery.courier.management.domain.service.CourierPayoutServic
 import br.com.algadelivery.courier.management.domain.service.CourierRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -55,7 +57,15 @@ public class CourierController {
     }
 
     @PostMapping("/payout-calculation")
-    public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input) {
+    public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input) throws InterruptedException {
+        log.info("Calculating");
+        if (Math.random() < 0.1) {
+            throw new RuntimeException();
+        }
+
+        int millis = new Random().nextInt(250);
+        Thread.sleep(millis);
+
         BigDecimal payoutFee = courierPayoutService.calculate(input.getDistanceInKm());
         return new CourierPayoutResultModel(payoutFee);
     }
