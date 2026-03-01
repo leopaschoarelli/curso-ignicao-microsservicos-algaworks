@@ -4,6 +4,7 @@ import br.com.algadelivery.delivery.tracking.api.model.CourierIdInput;
 import br.com.algadelivery.delivery.tracking.api.model.DeliveryInput;
 import br.com.algadelivery.delivery.tracking.domain.model.Delivery;
 import br.com.algadelivery.delivery.tracking.domain.repository.DeliveryRepository;
+import br.com.algadelivery.delivery.tracking.domain.service.DeliveryCheckpointService;
 import br.com.algadelivery.delivery.tracking.domain.service.DeliveryPreparationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class DeliveryController {
 
     private final DeliveryPreparationService deliveryPreparationService;
+    private final DeliveryCheckpointService deliveryCheckpointService;
     private final DeliveryRepository deliveryRepository;
 
     @PostMapping
@@ -48,18 +50,18 @@ public class DeliveryController {
 
     @PostMapping("/{deliveryId}/placement")
     public void place(@PathVariable UUID deliveryId) {
-
+        deliveryCheckpointService.place(deliveryId);
     }
 
     @PostMapping("/{deliveryId}/pickups")
     public void pickUp(@PathVariable UUID deliveryId,
                        @Valid @RequestBody CourierIdInput input) {
-
+        deliveryCheckpointService.pickUp(deliveryId, input.getCourierId());
     }
 
     @PostMapping("/{deliveryId}/completion")
     public void complete(@PathVariable UUID deliveryId) {
-
+        deliveryCheckpointService.complete(deliveryId);
     }
 
 }
