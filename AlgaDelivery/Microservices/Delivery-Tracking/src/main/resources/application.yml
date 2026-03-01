@@ -19,3 +19,11 @@ spring:
           delivery-placed-event:br.com.algadelivery.delivery.tracking.domain.event.DeliveryPlacedEvent,
           delivery-pickup-event:br.com.algadelivery.delivery.tracking.domain.event.DeliveryPickUpEvent,
           delivery-fulfilled-event:br.com.algadelivery.delivery.tracking.domain.event.DeliveryFulfilledEvent
+
+eureka:
+  client:
+    serviceUrl:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${random.value}
+    prefer-ip-address: true

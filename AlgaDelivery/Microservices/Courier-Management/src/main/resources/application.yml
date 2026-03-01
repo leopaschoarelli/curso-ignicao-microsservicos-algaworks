@@ -24,3 +24,11 @@ spring:
           delivery-placed-event:br.com.algadelivery.courier.management.infrastructure.event.DeliveryPlacedIntegrationEvent,
           delivery-pickup-event:com.fasterxml.jackson.databind.JsonNode,
           delivery-fulfilled-event:br.com.algadelivery.courier.management.infrastructure.event.DeliveryFulfilledIntegrationEvent
+
+eureka:
+  client:
+    serviceUrl:
+      default-zone: http://localhost:8761/eureka/
+  instance:
+    instance-id: ${random.value}
+    prefer-ip-address: true
