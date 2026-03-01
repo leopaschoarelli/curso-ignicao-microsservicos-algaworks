@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Random;
 import java.util.UUID;
 
 @RestController
@@ -39,7 +40,9 @@ public class DeliveryController {
     }
 
     @GetMapping
-    public PagedModel<Delivery> findAll(@PageableDefault Pageable pageable) {
+    public PagedModel<Delivery> findAll(@PageableDefault Pageable pageable) throws InterruptedException {
+        int millis = new Random().nextInt(400);
+        Thread.sleep(millis);
         return new PagedModel<>(deliveryRepository.findAll(pageable));
     }
 
