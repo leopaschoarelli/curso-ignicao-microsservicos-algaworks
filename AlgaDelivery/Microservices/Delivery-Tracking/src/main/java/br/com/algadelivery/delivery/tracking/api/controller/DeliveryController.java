@@ -1,5 +1,6 @@
 package br.com.algadelivery.delivery.tracking.api.controller;
 
+import br.com.algadelivery.delivery.tracking.api.model.DeliveryInput;
 import br.com.algadelivery.delivery.tracking.domain.model.Delivery;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,7 @@ public class DeliveryController {
     @PutMapping("/{deliveryId}")
     public Delivery edit(@PathVariable UUID deliveryId,
                          @RequestBody @Valid DeliveryInput deliveryInput) {
+        return null;
     }
 
 }
