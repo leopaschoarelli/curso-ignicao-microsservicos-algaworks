@@ -1,5 +1,6 @@
 package br.com.algadelivery.delivery.tracking.api.controller;
 
+import br.com.algadelivery.delivery.tracking.api.model.CourierIdInput;
 import br.com.algadelivery.delivery.tracking.api.model.DeliveryInput;
 import br.com.algadelivery.delivery.tracking.domain.model.Delivery;
 import br.com.algadelivery.delivery.tracking.domain.repository.DeliveryRepository;
@@ -43,6 +44,22 @@ public class DeliveryController {
     @GetMapping("/{deliveryId}")
     public Delivery findById(@PathVariable UUID deliveryId) {
         return deliveryRepository.findById(deliveryId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Delivery not found"));
+    }
+
+    @PostMapping("/{deliveryId}/placement")
+    public void place(@PathVariable UUID deliveryId) {
+
+    }
+
+    @PostMapping("/{deliveryId}/pickups")
+    public void pickUp(@PathVariable UUID deliveryId,
+                       @Valid @RequestBody CourierIdInput input) {
+
+    }
+
+    @PostMapping("/{deliveryId}/completion")
+    public void complete(@PathVariable UUID deliveryId) {
+
     }
 
 }
