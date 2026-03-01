@@ -50,8 +50,38 @@ public class Delivery {
         return delivery;
     }
 
+    public UUID addItem(String name, Integer quantity) {
+        Item item = Item.brandNew(name, quantity);
+        items.add(item);
+        calculateTotalItems();
+        return item.getId();
+    }
+
+    public void removeItem(UUID itemId) {
+        items.removeIf(item -> item.getId().equals(itemId));
+        calculateTotalItems();
+    }
+
+    public void changeItemQuantity(UUID itemId, Integer quantity) {
+        var item = getItems().stream()
+                             .filter(i -> i.getId().equals(itemId))
+                             .findFirst().orElseThrow();
+        item.setQuantity(quantity);
+        calculateTotalItems();
+    }
+
+    public void removeItems() {
+        items.clear();
+        calculateTotalItems();
+    }
+
     public List<Item> getItems() {
         return Collections.unmodifiableList(this.items);
+    }
+
+    private void calculateTotalItems() {
+        var totalItems = getItems().stream().mapToInt(Item::getQuantity).sum();
+        setTotalItems(totalItems);
     }
 
 }
