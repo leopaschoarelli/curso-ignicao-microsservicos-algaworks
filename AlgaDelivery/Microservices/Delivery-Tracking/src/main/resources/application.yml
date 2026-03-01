@@ -10,10 +10,10 @@ spring:
     username: postgres
     password: postgres
   kafka:
-    bootstrap-servers: localhost:9092
     producer:
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       properties:
         spring.json.type.mapping:
           delivery-placed-event:br.com.algadelivery.delivery.tracking.domain.event.DeliveryPlacedEvent,
@@ -22,13 +22,8 @@ spring:
 
 eureka:
   client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
+    server-url:
+      default-zone: http://localhost:8761/eureka/
   instance:
     instance-id: ${random.value}
     prefer-ip-address: true
-
-  logging:
-    level:
-      com.netflix.discovery: DEBUG
-      com.netflix.eureka: DEBUG

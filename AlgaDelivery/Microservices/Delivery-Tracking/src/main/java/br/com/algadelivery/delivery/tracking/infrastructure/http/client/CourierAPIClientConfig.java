@@ -11,9 +11,14 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 public class CourierAPIClientConfig {
 
     @Bean
-    public CourierAPIClient courierAPIClient() {
-        //RestClient restClient = RestClient.builder().baseUrl("http://courier-management").build();
-        RestClient restClient = RestClient.builder().baseUrl("http://localhost:8081").build();
+    @LoadBalanced
+    public RestClient.Builder loadBalacendRestClientBuilder() {
+        return RestClient.builder();
+    }
+
+    @Bean
+    public CourierAPIClient courierAPIClient(RestClient.Builder builder) {
+        RestClient restClient = builder.baseUrl("http://courier-management").build();
         RestClientAdapter adapter = RestClientAdapter.create(restClient);
         HttpServiceProxyFactory proxyFactory = HttpServiceProxyFactory.builderFor(adapter).build();
         return proxyFactory.createClient(CourierAPIClient.class);
