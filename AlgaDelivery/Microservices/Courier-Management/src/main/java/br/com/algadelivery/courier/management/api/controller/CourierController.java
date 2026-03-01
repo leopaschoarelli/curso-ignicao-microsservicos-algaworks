@@ -9,6 +9,7 @@ import br.com.algadelivery.courier.management.domain.service.CourierPayoutServic
 import br.com.algadelivery.courier.management.domain.service.CourierRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/v1/couriers")
 @RequiredArgsConstructor
+@Slf4j
 public class CourierController {
 
     private final CourierRegistrationService courierRegistrationService;
@@ -43,6 +45,7 @@ public class CourierController {
 
     @GetMapping
     public PagedModel<Courier> findAll(@PageableDefault Pageable pageable) {
+        log.info("FindAll Request");
         return new PagedModel<>(courierRepository.findAll(pageable));
     }
 
