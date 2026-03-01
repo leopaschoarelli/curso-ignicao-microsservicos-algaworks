@@ -1,8 +1,11 @@
 package br.com.algadelivery.courier.management.api.controller;
 
 import br.com.algadelivery.courier.management.api.model.CourierInput;
+import br.com.algadelivery.courier.management.api.model.CourierPayoutCalculationInput;
+import br.com.algadelivery.courier.management.api.model.CourierPayoutResultModel;
 import br.com.algadelivery.courier.management.domain.model.Courier;
 import br.com.algadelivery.courier.management.domain.repository.CourierRepository;
+import br.com.algadelivery.courier.management.domain.service.CourierPayoutService;
 import br.com.algadelivery.courier.management.domain.service.CourierRegistrationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +26,8 @@ public class CourierController {
 
     private final CourierRegistrationService courierRegistrationService;
     private final CourierRepository courierRepository;
+
+    private final CourierPayoutService courierPayoutService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,6 +49,12 @@ public class CourierController {
     @GetMapping("/{courierId}")
     public Courier findById(@PathVariable UUID courierId) {
         return courierRepository.findById(courierId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Courier not found"));
+    }
+
+    @PostMapping("/payout-calculation")
+    public CourierPayoutResultModel calculate(@RequestBody CourierPayoutCalculationInput input) {
+        BigDecimal payoutFee = courierPayoutService.calculate(input.getDistanceInKm());
+        return new CourierPayoutResultModel(payoutFee);
     }
 
 }
