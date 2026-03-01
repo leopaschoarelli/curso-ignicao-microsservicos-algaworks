@@ -1,9 +1,12 @@
 package br.com.algadelivery.delivery.tracking.domain.model;
 
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Item {
 
@@ -11,5 +14,15 @@ public class Item {
     private UUID id;
     private String name;
     private Integer quantity;
+
+    static Item brandNew(String name, Integer quantity) {
+        var item = new Item();
+
+        item.id = UUID.randomUUID();
+        item.name = name;
+        item.quantity = quantity;
+
+        return item;
+    }
 
 }
