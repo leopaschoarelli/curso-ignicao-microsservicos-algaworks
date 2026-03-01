@@ -1,5 +1,6 @@
 package br.com.algadelivery.delivery.tracking.infrastructure.resilience4j;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.core.registry.EntryAddedEvent;
 import io.github.resilience4j.core.registry.EntryRemovedEvent;
 import io.github.resilience4j.core.registry.EntryReplacedEvent;
@@ -10,21 +11,22 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-public class Resilence4jRetryEventConsumer implements RegistryEventConsumer<Retry> {
+public class Resilence4jCircuitBreakerEventConsumer implements RegistryEventConsumer<CircuitBreaker> {
 
     @Override
-    public void onEntryAddedEvent(EntryAddedEvent<Retry> entryAddedEvent) {
+    public void onEntryAddedEvent(EntryAddedEvent<CircuitBreaker> entryAddedEvent) {
         entryAddedEvent.getAddedEntry().getEventPublisher()
                         .onEvent(event -> log.info(event.toString()));
     }
 
     @Override
-    public void onEntryRemovedEvent(EntryRemovedEvent<Retry> entryRemoveEvent) {
+    public void onEntryRemovedEvent(EntryRemovedEvent<CircuitBreaker> entryRemoveEvent) {
 
     }
 
     @Override
-    public void onEntryReplacedEvent(EntryReplacedEvent<Retry> entryReplacedEvent) {
+    public void onEntryReplacedEvent(EntryReplacedEvent<CircuitBreaker> entryReplacedEvent) {
 
     }
+
 }
